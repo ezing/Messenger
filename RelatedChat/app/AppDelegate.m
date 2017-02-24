@@ -209,24 +209,16 @@
 	return NO;
 }
 
-#pragma mark - Google login methods
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-- (BOOL)application:(nonnull UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *, id> *)options
-//-------------------------------------------------------------------------------------------------------------------------------------------------
-{
-	return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-									  annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
-}
-
-#pragma mark - Facebook login methods
+#pragma mark - Google and Facebook login methods
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url
-												sourceApplication:sourceApplication annotation:annotation];
+	if ([url.absoluteString containsString:@"google"])
+		return [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
+	//---------------------------------------------------------------------------------------------------------------------------------------------
+	return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
 
